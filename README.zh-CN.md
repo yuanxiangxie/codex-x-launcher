@@ -106,8 +106,8 @@ url.searchParams.set("url", "https://docs.python.org/3/");
 
 <a href="https://www.star-history.com/?repos=yuanxiangxie%2Fcodex-x-launcher&amp;type=date&amp;legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;theme=dark&amp;legend=top-left">
-    <img alt="Codex X Launcher 的 GitHub 星标数随时间的变化" src="https://api.star-history.com/chart?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;legend=top-left">
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;theme=dark&amp;legend=top-left">
+    <img alt="Codex X Launcher 的 GitHub 星标数随时间的变化" src="https://api.star-history.com/image?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;legend=top-left">
   </picture>
 </a>
 
