@@ -1,12 +1,27 @@
-# Codex X Launcher
+<h1 align="center">Codex X Launcher</h1>
 
-Open [X](https://x.com/) from the sidebar of the Codex desktop app on macOS. The launcher opens the X homepage in the built-in browser, so you can use X alongside your conversation.
+<p align="center"><strong>English</strong> · <a href="README.zh-CN.md">简体中文</a></p>
 
-![X launcher card showing x.com and the Reopen X button](docs/launcher.png)
+<p align="center">
+  <a href="https://github.com/yuanxiangxie/codex-x-launcher/stargazers"><img src="https://img.shields.io/github/stars/yuanxiangxie/codex-x-launcher?style=flat&amp;logo=github" alt="GitHub stars"></a>
+  <a href="LICENSE"><img src="resources/badges/license.svg" alt="License: MIT"></a>
+  <a href="https://github.com/yuanxiangxie/codex-x-launcher/commits/master/"><img src="https://img.shields.io/github/last-commit/yuanxiangxie/codex-x-launcher/master?style=flat&amp;label=last%20commit" alt="Latest commit on master"></a>
+  <a href="#1-quick-start"><img src="resources/badges/platform.svg" alt="Platform: macOS"></a>
+  <a href="#1-quick-start"><img src="resources/badges/node.svg" alt="Requires Node.js 22 or later"></a>
+  <a href="https://github.com/yuanxiangxie/codex-x-launcher/pulls"><img src="resources/badges/prs.svg" alt="Pull requests welcome"></a>
+</p>
 
-## Installation
+<p align="center">
+  <a href="resources/x-bar.png"><img src="resources/x-bar.png" width="960" alt="Codex with X pinned in the left sidebar and x.com open in the browser pane on the right"></a>
+</p>
 
-You need macOS, Node.js 22 or later with npm, and a version of Codex that supports sidebar plugins and the in-app browser. Run `codex plugin --help` to check that your CLI includes the `add` and `marketplace` commands.
+Codex X Launcher is an open-source sidebar plugin for browsing X while your agent works. For example, you can check whether Tibo has posted about a usage limit reset.
+
+## 1. Quick start
+
+### 1.1 Requirements and installation
+
+You'll need Git, Node.js 22 or later with npm, and Codex for macOS with sidebar plugins and the built-in browser. Tested with Codex `26.1120.50957`. Other versions with those features may work but haven't been tested.
 
 ```sh
 git clone https://github.com/yuanxiangxie/codex-x-launcher.git
@@ -17,46 +32,46 @@ codex plugin marketplace add "$PWD"
 codex plugin add x-launcher@codex-x-launcher
 ```
 
-Keep the cloned directory in place. Codex uses it as the local plugin marketplace.
-
 <details>
-<summary>Moving from the 1.x plugin</summary>
+<summary>CLI missing the plugin commands?</summary>
 
-Version 2 opens the X homepage and uses a new plugin ID. In the existing checkout, remove the old registration, update the source, and install the new entry.
-
-```sh
-codex plugin remove ai-consult@local-ai-consult
-codex plugin marketplace remove local-ai-consult
-git pull --ff-only
-npm ci
-npm run build
-codex plugin marketplace add "$PWD"
-codex plugin add x-launcher@codex-x-launcher
-```
-
-</details>
-
-<details>
-<summary>My terminal does not recognize <code>codex plugin</code></summary>
-
-If your desktop app is installed at `/Applications/ChatGPT.app` and includes the bundled CLI at the path below, run this in the current shell, then repeat the plugin commands.
+If your installation includes the CLI at the path below, use it in the current shell. Look for `add` and `marketplace` in the help output.
 
 ```sh
 codex() { "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex" "$@"; }
+codex plugin --help
 ```
 
 </details>
 
-## Usage
+### 1.2 Pin X to the sidebar
 
-Select **X** in the Codex sidebar. When the launcher becomes visible, it opens `https://x.com/`. If X asks you to sign in, complete that step on the website.
+| Open X | Pin the shortcut (optional) |
+| --- | --- |
+| **Customize → Plugins → Installed → X → Open plugin** | On the plugin page, choose **⋯ → Pin to sidebar**. |
+| [![Open plugin in Codex](resources/x-plugin.png)](resources/x-plugin.png) | [![Pin to sidebar in the plugin menu](resources/x-plugin-sidebar.png)](resources/x-plugin-sidebar.png) |
 
-- Select **Reopen X** on the card to open the homepage again. If the launch fails, select **Retry**.
-- Use **Enter full view** in the browser toolbar to expand the page, and **Exit full view** to return to split view. Where available, **Hide composer** in the **⋯** menu hides the floating chat input.
+## 2. Usage
 
-## Updating
+Select **X** in the sidebar to open [x.com](https://x.com/). Sign in and browse X as you would in any browser.
 
-From the checkout used for installation, run the following commands.
+### 2.1 Full view
+
+1. Click **Enter full view** at the top right of the browser pane, or press <kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>F</kbd>.
+2. Click **Exit full view** to return to split view.
+3. For an unobstructed view of X, we recommend choosing **⋯ → Hide composer** if the option is available.
+
+[![X in full view in Codex](resources/x-fullview.png)](resources/x-fullview.png)
+
+## 3. How it works
+
+When the card appears, a local MCP tool passes the fixed `https://x.com/` address to Codex. Its built-in **Chromium** browser renders the page. [Launcher code](plugins/x-launcher/open-x.cjs)
+
+You sign in on X, and the Codex browser manages session cookies. The launcher does not read passwords, cookies, messages, or timeline content. If you ask Codex to use the page, its [browser permissions](https://developers.openai.com/codex/app/browser) apply.
+
+## 4. Update and uninstall
+
+**Update** from the original checkout. Reload the Codex window if the old card is still visible.
 
 ```sh
 git pull --ff-only
@@ -65,30 +80,35 @@ npm run build
 codex plugin add x-launcher@codex-x-launcher
 ```
 
-Reload the Codex window if it still shows an earlier version of the card.
-
-## Uninstalling
+**Uninstall**
 
 ```sh
 codex plugin remove x-launcher@codex-x-launcher
 codex plugin marketplace remove codex-x-launcher
 ```
 
-## Development
+## 5. Adapt the launcher to another website
 
-The local MCP server registers the sidebar entry. The card waits until it is visible before asking the server to open X. On macOS the server passes a fixed browser link to Codex through Launch Services. Sign-in and browsing take place in the Codex browser.
+To launch another site, change the destination in your fork of [open-x.cjs](plugins/x-launcher/open-x.cjs). For the Python docs, use this URL.
 
-- Sidebar tools and macOS navigation are implemented in [server.cjs](plugins/x-launcher/server.cjs) and [open-x.cjs](plugins/x-launcher/open-x.cjs).
-- For card layout and interaction, see [launcher.html](plugins/x-launcher/launcher.html) and [launcher.js](plugins/x-launcher/launcher.js).
-
-After changing the source, rebuild and run the tests.
-
-```sh
-npm run build
-npm test          # Check the destination, sidebar registration, icon and activation
-npm run test:ui   # Test layout, theme changes and keyboard retry in local Google Chrome
+```js
+url.searchParams.set("url", "https://docs.python.org/3/");
 ```
+
+- Give the fork its own [plugin](plugins/x-launcher/.codex-plugin/plugin.json) and [marketplace](.agents/plugins/marketplace.json) IDs so it can run alongside X. Rename the server in [.mcp.json](plugins/x-launcher/.mcp.json) and [server.cjs](plugins/x-launcher/server.cjs). Set a distinct card URI and match tool names in [launcher.js](plugins/x-launcher/launcher.js).
+- Update the display name, button labels, [plugin icon](plugins/x-launcher/x-icon.png), and logo in the [card template](plugins/x-launcher/launcher.html). Adjust the expected URL and labels in the [plugin tests](scripts/verify.mjs) and [UI tests](scripts/verify-ui.mjs).
+
+Build the fork and install it using its new `plugin-name@marketplace-name`.
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=yuanxiangxie%2Fcodex-x-launcher&amp;type=date&amp;legend=top-left">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;theme=dark&amp;legend=top-left">
+    <img alt="GitHub stars for Codex X Launcher over time" src="https://api.star-history.com/chart?repos=yuanxiangxie/codex-x-launcher&amp;type=date&amp;legend=top-left">
+  </picture>
+</a>
 
 ## License
 
-[MIT](LICENSE)
+The [MIT License](LICENSE) permits commercial use, modification, and redistribution with the copyright and permission notices intact.
