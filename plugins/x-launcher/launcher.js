@@ -25,16 +25,16 @@ async function reveal() {
   clearTimeout(retryTimer);
   button.hidden = false;
   button.disabled = true;
-  buttonLabel.textContent = "正在打开…";
+  buttonLabel.textContent = "Opening…";
   status.textContent = "";
   try {
-    const result = await app.callServerTool({ name: "show_grok_browser", arguments: {} });
-    if (result.isError) throw new Error("open failed");
-    buttonLabel.textContent = "重新打开";
+    const result = await app.callServerTool({ name: "open_x_in_browser", arguments: {} });
+    if (result.isError) throw new Error("Could not open X");
+    buttonLabel.textContent = "Reopen X";
     retryTimer = setTimeout(() => { button.disabled = false; }, 6000);
   } catch {
-    status.textContent = "未能在 Codex 浏览器中打开 Grok，请重试。";
-    buttonLabel.textContent = "重试";
+    status.textContent = "Could not open X in Codex. Try again.";
+    buttonLabel.textContent = "Retry";
     button.disabled = false;
   } finally {
     opening = false;
@@ -45,7 +45,7 @@ async function reveal() {
 app.ontoolresult = result => {
   if (result.isError) {
     button.hidden = true;
-    status.textContent = "请点击 Codex 左侧栏的「X」，重新打开 Grok。";
+    status.textContent = "Select X in the Codex sidebar to try again.";
     return;
   }
   activation = result.structuredContent?.activation ?? "current-mount";
@@ -68,5 +68,5 @@ app.connect().then(() => {
   void reveal();
 }).catch(() => {
   button.hidden = true;
-  status.textContent = "未能连接到 Codex。请重新点击左侧栏的「X」。";
+  status.textContent = "Could not connect to Codex. Select X in the sidebar to reconnect.";
 });

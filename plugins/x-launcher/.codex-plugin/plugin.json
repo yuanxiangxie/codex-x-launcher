@@ -1,0 +1,14 @@
+{
+  "name": "x-launcher",
+  "version": "2.0.0",
+  "description": "A macOS sidebar shortcut that opens X in the Codex in-app browser.",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "X",
+    "shortDescription": "Open X in the Codex browser",
+    "category": "Productivity",
+    "logo": "./x-icon.png",
+    "composerIcon": "./x-icon.png"
+  },
+  "license": "MIT"
+}

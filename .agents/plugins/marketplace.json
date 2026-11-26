@@ -1,14 +1,14 @@
 {
-  "name": "local-ai-consult",
+  "name": "codex-x-launcher",
   "interface": {
-    "displayName": "本机侧栏插件"
+    "displayName": "Codex X Launcher"
   },
   "plugins": [
     {
-      "name": "ai-consult",
+      "name": "x-launcher",
       "source": {
         "source": "local",
-        "path": "./plugins/ai-consult"
+        "path": "./plugins/x-launcher"
       },
       "policy": {
         "installation": "AVAILABLE",

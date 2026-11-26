@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
 
-const html = await readFile(new URL("../plugins/ai-consult/dist/launcher.html", import.meta.url), "utf8");
+const html = await readFile(new URL("../plugins/x-launcher/dist/launcher.html", import.meta.url), "utf8");
 const browser = await chromium.launch({ channel: "chrome", headless: true, chromiumSandbox: true });
 try {
   const page = await browser.newPage({ viewport: { width: 795, height: 320 } });
@@ -24,7 +24,7 @@ try {
       if (data.method === "ui/notifications/initialized") {
         window.notify("ui/notifications/tool-result", { content: [], structuredContent: { activation: "preview" } });
       }
-      if (data.method === "tools/call" && data.params.name === "show_grok_browser") {
+      if (data.method === "tools/call" && data.params.name === "open_x_in_browser") {
         window.openCount++;
         reply({ content: [], isError: window.openCount === 2 });
       }
@@ -33,7 +33,7 @@ try {
   }, html);
   const ui = page.frameLocator("iframe");
   const button = ui.getByRole("button");
-  await ui.getByRole("button", { name: "重新打开" }).waitFor();
+  await ui.getByRole("button", { name: "Reopen X" }).waitFor();
   assert.equal(await page.evaluate(() => window.openCount), 1);
   for (const width of [240, 400, 795, 1440]) {
     await page.setViewportSize({ width, height: 320 });
@@ -56,12 +56,12 @@ try {
   await page.waitForFunction(() => !document.querySelector("iframe").contentDocument.querySelector("button").disabled);
   await button.focus();
   await page.keyboard.press("Enter");
-  await ui.getByRole("button", { name: "重试" }).waitFor();
-  assert.match(await ui.getByRole("status").textContent(), /请重试/);
+  await ui.getByRole("button", { name: "Retry" }).waitFor();
+  assert.match(await ui.getByRole("status").textContent(), /Try again/);
   await button.click();
-  await ui.getByRole("button", { name: "重新打开" }).waitFor();
+  await ui.getByRole("button", { name: "Reopen X" }).waitFor();
   assert.equal(await page.evaluate(() => window.openCount), 3);
-  console.log("通过：自动触发、宽窄布局、顶部间距、深色主题和键盘重试。");
+  console.log("Passed: activation, responsive layout, top spacing, dark theme and keyboard retry.");
 } finally {
   await browser.close();
 }

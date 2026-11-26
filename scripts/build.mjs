@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const plugin = "plugins/ai-consult";
+const plugin = "plugins/x-launcher";
 const dist = path.join(root, plugin, "dist");
 await mkdir(dist, { recursive: true });
 
@@ -21,7 +21,7 @@ const browser = await build({
 const template = await readFile(path.join(root, plugin, "launcher.html"), "utf8");
 const script = browser.outputFiles[0].text;
 if (template.split("<!-- app-script -->").length !== 2 || /<\/script/i.test(script)) {
-  throw new Error("无法将浏览器脚本嵌入卡片模板。");
+  throw new Error("Could not embed the browser script in the launcher template.");
 }
 const html = template.replace("<!-- app-script -->", () => `<script>${script}</script>`);
 await writeFile(path.join(dist, "launcher.html"), html);

@@ -1,6 +1,5 @@
-const { execFile } = require("node:child_process");
+const openX = require("./open-x.cjs");
 const { randomUUID } = require("node:crypto");
-const { promisify } = require("node:util");
 const { readFileSync } = require("node:fs");
 const { join } = require("node:path");
 const { McpServer } = require("@modelcontextprotocol/sdk/server/mcp.js");
@@ -9,28 +8,25 @@ const { registerAppResource, registerAppTool, RESOURCE_MIME_TYPE } = require("@m
 
 const iconData = readFileSync(join(__dirname, "x-icon.png")).toString("base64");
 const server = new McpServer({
-  name: "ai-consult",
+  name: "x-launcher",
   title: "X",
   version: require("./.codex-plugin/plugin.json").version,
   icons: [{ src: `data:image/png;base64,${iconData}`, mimeType: "image/png", sizes: ["128x128"] }]
 });
-const resourceUri = "ui://ai-consult/launcher-v2.html";
-const browserUrl = new URL("codex://browser");
-browserUrl.searchParams.set("url", "https://x.com/i/grok");
-const run = promisify(execFile);
+const resourceUri = "ui://x-launcher/card-v1.html";
 
-async function openGrok() {
+async function openInBrowser() {
   try {
-    await run("/usr/bin/open", ["-b", "com.openai.codex", browserUrl.href], { timeout: 10000 });
+    await openX();
     return { content: [] };
   } catch {
-    return { isError: true, content: [{ type: "text", text: "未能打开 X 上的 Grok。请确认 Codex 可以打开网页，再试一次。" }] };
+    return { isError: true, content: [{ type: "text", text: "Could not open X. Check that the Codex browser is available and try again." }] };
   }
 }
 
-registerAppTool(server, "open_grok", {
+registerAppTool(server, "activate_x_launcher", {
   title: "X",
-  description: "从 Codex 左侧栏打开 X 上的 Grok。",
+  description: "Activate the X launcher from the Codex sidebar.",
   inputSchema: {},
   _meta: {
     ui: { resourceUri, visibility: ["app"] },
@@ -38,12 +34,12 @@ registerAppTool(server, "open_grok", {
   }
 }, async () => ({ content: [], structuredContent: { activation: randomUUID() } }));
 
-server.registerTool("show_grok_browser", {
-  title: "打开 X 上的 Grok",
-  description: "在 Codex 内置浏览器打开 x.com/i/grok。",
+server.registerTool("open_x_in_browser", {
+  title: "Open X",
+  description: "Open https://x.com/ in the Codex in-app browser.",
   inputSchema: {},
   _meta: { ui: { visibility: ["app"] } }
-}, openGrok);
+}, openInBrowser);
 
 registerAppResource(server, "X", resourceUri, {}, async () => ({
   contents: [{

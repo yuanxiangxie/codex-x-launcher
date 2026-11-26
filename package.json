@@ -1,8 +1,8 @@
 {
   "name": "codex-x-launcher",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "private": true,
-  "description": "Codex 桌面端的 X / Grok 侧栏入口",
+  "description": "Open X from the sidebar of the Codex desktop app on macOS.",
   "engines": {
     "node": ">=22"
   },
@@ -16,5 +16,6 @@
     "@modelcontextprotocol/sdk": "1.32.2",
     "esbuild": "0.28.2",
     "playwright-core": "1.62.1"
-  }
+  },
+  "license": "MIT"
 }
