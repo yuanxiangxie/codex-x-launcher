@@ -1,0 +1,13 @@
+{
+  "name": "ai-consult",
+  "version": "1.1.1",
+  "description": "从 Codex 全局侧栏在内置浏览器打开 X 上的 Grok。",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "X",
+    "shortDescription": "在 Codex 内置浏览器打开 X 上的 Grok",
+    "category": "Productivity",
+    "logo": "./x-icon.png",
+    "composerIcon": "./x-icon.png"
+  }
+}

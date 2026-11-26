@@ -1,0 +1,20 @@
+{
+  "name": "codex-x-launcher",
+  "version": "1.1.1",
+  "private": true,
+  "description": "Codex 桌面端的 X / Grok 侧栏入口",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/verify.mjs",
+    "test:ui": "node scripts/verify-ui.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "esbuild": "0.28.2",
+    "playwright-core": "1.62.1"
+  }
+}

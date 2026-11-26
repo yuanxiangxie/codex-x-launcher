@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>X</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      --surface: light-dark(#fff, #222325);
+      --ink: light-dark(#202124, #f4f4f5);
+      --muted: light-dark(#60646b, #b3b4bb);
+      --line: light-dark(#dedfe2, #414247);
+      --action: light-dark(#232428, #f1f1f2);
+      --action-text: light-dark(#fff, #202124);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: clamp(12px, 3vw, 28px); color: var(--ink); }
+    main {
+      width: 100%;
+      margin-block-start: 16px;
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 4%);
+    }
+    .row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .destination { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1 1 auto; }
+    .brand {
+      width: 40px; height: 40px; flex: none; display: grid; place-items: center;
+      background: #101113; color: white; border-radius: 11px;
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 12%);
+    }
+    h1 { margin: 0; font-size: 16px; line-height: 1.45; font-weight: 600; }
+    .address { margin: 2px 0 0; color: var(--muted); font: 12px/1.5 ui-monospace, monospace; }
+    button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 36px; padding: 7px 14px; border: 1px solid transparent; border-radius: 9px;
+      font-family: inherit; font-size: 13px; line-height: 1.4; font-weight: 600;
+      color: var(--action-text); background: var(--action); cursor: pointer;
+    }
+    button:enabled:hover { background: light-dark(#393b40, #dbdce0); }
+    button:enabled:active { transform: translateY(1px); }
+    button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    button:disabled { background: light-dark(#eeeeef, #333438); color: var(--muted); cursor: default; }
+    button:disabled svg { display: none; }
+    button[hidden], .notice:empty { display: none; }
+    .notice { margin: 14px 0 0; border-top: 1px solid var(--line); padding-top: 12px; font-size: 13px; line-height: 1.6; }
+    @media (max-width: 320px) { button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="destination">
+    <div class="row">
+      <div class="destination">
+        <span class="brand" aria-hidden="true">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932Zm-1.29 19.49h2.039L6.487 3.24H4.299Z"/>
+          </svg>
+        </span>
+        <div>
+          <h1 id="destination">X 上的 Grok</h1>
+          <p class="address">x.com/i/grok</p>
+        </div>
+      </div>
+      <button type="button" disabled aria-describedby="destination">
+        <span>正在打开…</span>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10m-5-5 5 5-5 5"/>
+        </svg>
+      </button>
+    </div>
+    <p class="notice" role="status" aria-live="polite"></p>
+  </main>
+  <!-- app-script -->
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai-consult": {
+      "command": "/bin/sh",
+      "args": [
+        "./start.sh"
+      ],
+      "cwd": "."
+    }
+  }
+}
