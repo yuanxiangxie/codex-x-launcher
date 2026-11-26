@@ -85,16 +85,15 @@ codex plugin add ai-consult@local-ai-consult
 
 维护者发布新版时，更新插件清单里的版本，并同步根目录的 npm 版本及锁文件。变更卡片 HTML、JS 或 CSS 后重新构建。若宿主复用旧卡片，按官方建议给新版界面分配新的资源 URI 并同步入口声明；本项目在 `server.cjs` 的 `resourceUri` 常量中统一引用。重新载入当前 Codex 窗口，再点击左栏的 X。如果仍显示旧内容，完整退出并重新打开 Codex。排查时先比对构建目录和已安装版本，通常无需清除整个 Codex 缓存。
 
-## 托管到 GitHub
+## 发布到 GitHub
 
-维护者首次上传时，在自己的 GitHub 账号下创建一个空仓库，自行选定公开或私有。复制该仓库的 HTTPS 或 SSH 地址，在本地仓库根目录执行以下命令，将占位地址替换为复制的地址。
+维护者在本地 `master` 分支完成验证并提交后，推送到 `origin/master`。
 
 ```sh
-git remote add origin <你的-GitHub-仓库地址>
-git push -u origin main
+git push -u origin master
 ```
 
-后续版本提交源码、锁文件和必要的说明即可。其他人从 GitHub 克隆后按本页的安装步骤构建，再注册本地市场。`docs/launcher.png` 是卡片预览，可以直接用于仓库首页。
+项目采用 [MIT 许可证](LICENSE)。
 
 ## 卸载
 
